@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AetherQuantum - Agentic Quantum Computing Playground</title>
+    
+    <!-- SEO Optimization -->
+    <meta name="description" content="AetherQuantum is a premium, interactive agentic quantum computing simulator. Command an AI quantum compiler to design, run, and analyze circuits in real-time.">
+    <meta name="keywords" content="quantum computing, simulator, AI agent, quantum circuit, physics, superposition, entanglement, Grover, Deutsch-Jozsa">
+    <meta name="author" content="Antigravity">
+    
+    <!-- Styles & Icons -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        
+        <!-- Header / Telemetry Bar -->
+        <header>
+            <div class="brand-section">
+                <div class="brand-logo"></div>
+                <h1 class="brand-text">AETHERQUANTUM</h1>
+            </div>
+            
+            <div class="system-status">
+                <div class="status-item" id="telemetry-temp">
+                    <i class="fa-solid fa-temperature-low" style="color: #00f2fe;"></i>
+                    <span>T: <strong style="color: #ffffff;">15 mK</strong></span>
+                </div>
+                <div class="status-item" id="telemetry-coherence">
+                    <i class="fa-solid fa-wave-square" style="color: #9b51e0;"></i>
+                    <span>Coherence: <strong style="color: #ffffff;" id="coherence-value">99.85%</strong></span>
+                </div>
+                <div class="status-item" id="telemetry-error">
+                    <i class="fa-solid fa-circle-exclamation" style="color: #ff007f;"></i>
+                    <span>Fidelity: <strong style="color: #ffffff;">99.96%</strong></span>
+                </div>
+                <div class="status-item">
+                    <div class="status-dot"></div>
+                    <span id="sys-state">NOMINAL STATE</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Dashboard Workspace -->
+        <main class="main-workspace">
+            
+            <!-- COLUMN 1: Agent & Missions Panel -->
+            <section class="panel" id="panel-agent">
+                <div class="panel-header">
+                    <span class="panel-title"><i class="fa-solid fa-robot"></i> Kuantum Ajanı & Görevler</span>
+                </div>
+                
+                <div class="panel-body">
+                    <!-- Agent Status Card -->
+                    <div class="agent-status-card">
+                        <div class="agent-avatar">AQ</div>
+                        <div class="agent-meta">
+                            <h4>Quantum Agent v1.2</h4>
+                            <p id="agent-substatus">Sistem hazır, komut bekleniyor...</p>
+                        </div>
+                    </div>
+
+                    <!-- Presets Menu -->
+                    <div class="missions-container">
+                        <h4 style="font-size: 0.72rem; text-transform: uppercase; color: #94a3b8; margin-bottom: 8px;">Hazır Kuantum Görevleri</h4>
+                        <div class="missions-list" id="missions-list">
+                            <!-- Populated dynamically from agent.js -->
+                        </div>
+                    </div>
+
+                    <!-- Chat UI -->
+                    <div class="chat-container">
+                        <div class="chat-messages" id="chat-messages">
+                            <div class="message agent">
+                                Merhaba! Ben Aether Kuantum Ajanı. Bana yapmak istediğiniz deneyi doğal dilde söyleyin (örneğin: <strong>"bell state"</strong>, <strong>"grover's search"</strong> veya <strong>"q0 ve q1 dolanıklık"</strong>) ya da yukarıdaki görevlerden birini seçin. Sizin için devreyi hazırlayıp çalıştırayım!
+                            </div>
+                        </div>
+                        <div class="chat-input-bar">
+                            <input type="text" class="chat-input" id="chat-input" placeholder="Ajan için kuantum komutu girin..." autocomplete="off">
+                            <button class="chat-send-btn" id="chat-send-btn"><i class="fa-solid fa-paper-plane"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Chain of Thought -->
+                    <div class="cot-container">
+                        <div class="cot-header">
+                            <i class="fa-solid fa-brain"></i> Düşünce Zinciri (Chain of Thought)
+                        </div>
+                        <div id="cot-steps">
+                            <div class="thought-step">Ajan şu an rölanti durumunda. Yeni bir komut verdiğinizde kuantum kapı derleme adımlarını buradan izleyebilirsiniz.</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- COLUMN 2: Quantum Core Laboratory -->
+            <section class="lab-workspace">
+                
+                <!-- Circuit Designer Panel -->
+                <div class="panel" style="flex: 1.1;">
+                    <div class="panel-header">
+                        <span class="panel-title"><i class="fa-solid fa-network-wired"></i> Kuantum Devre Laboratuvarı</span>
+                        <div style="font-size: 0.72rem; color: #64748b; font-family: 'Fira Code', monospace;" id="gate-count-label">Kapı Sayısı: 0</div>
+                    </div>
+                    
+                    <div class="panel-body">
+                        <!-- Visual Circuit Diagram -->
+                        <div class="circuit-designer">
+                            <div class="circuit-svg-container">
+                                <svg class="circuit-svg" id="circuit-svg">
+                                    <!-- Rendered dynamically by app.js -->
+                                </svg>
+                            </div>
+                        </div>
+
+                        <!-- Circuit Controls -->
+                        <div class="circuit-actions">
+                            <div class="manual-add-row">
+                                <select class="select-cyber" id="select-gate">
+                                    <option value="H">H (Hadamard)</option>
+                                    <option value="X">X (Pauli-X/NOT)</option>
+                                    <option value="Y">Y (Pauli-Y)</option>
+                                    <option value="Z">Z (Pauli-Z)</option>
+                                    <option value="S">S (Phase Shift)</option>
+                                    <option value="T">T (Phase T)</option>
+                                    <option value="CX">CX (CNOT)</option>
+                                    <option value="CCX">CCX (Toffoli)</option>
+                                </select>
+                                <select class="select-cyber" id="select-target" title="Target Qubit">
+                                    <option value="0">q0 (Hedef)</option>
+                                    <option value="1">q1 (Hedef)</option>
+                                    <option value="2">q2 (Hedef)</option>
+                                    <option value="3">q3 (Hedef)</option>
+                                </select>
+                                <select class="select-cyber" id="select-control" title="Control Qubit (if CX/CCX)">
+                                    <option value="none">Kontrol Yok</option>
+                                    <option value="0">q0 (Kontrol)</option>
+                                    <option value="1">q1 (Kontrol)</option>
+                                    <option value="2">q2 (Kontrol)</option>
+                                    <option value="3">q3 (Kontrol)</option>
+                                </select>
+                                <button class="btn-cyber" id="btn-add-gate"><i class="fa-solid fa-plus"></i> Ekle</button>
+                            </div>
+                            
+                            <div style="display: flex; gap: 8px;">
+                                <button class="btn-cyber danger" id="btn-clear"><i class="fa-solid fa-trash-can"></i> Temizle</button>
+                                <button class="btn-cyber" id="btn-run" style="background: linear-gradient(135deg, #00ff87, #00f2fe); box-shadow: 0 2px 10px rgba(0, 255, 135, 0.3);"><i class="fa-solid fa-play"></i> Simüle Et</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Visualizer (Phase Wheels & Theory Card) -->
+                <div class="visualizer-dashboard">
+                    <!-- Phase Wheels -->
+                    <div class="panel">
+                        <div class="panel-header">
+                            <span class="panel-title"><i class="fa-solid fa-circle-nodes"></i> Durum Genlik & Faz Göstergesi</span>
+                        </div>
+                        <div class="panel-body" style="padding: 10px;">
+                            <div class="phase-wheel-grid" id="phase-wheel-grid">
+                                <!-- Populated dynamically by app.js -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Physics Theory Card -->
+                    <div class="panel">
+                        <div class="panel-header">
+                            <span class="panel-title"><i class="fa-solid fa-book-open"></i> Kuantum Fiziği Analizi</span>
+                        </div>
+                        <div class="panel-body">
+                            <div class="theory-card" id="theory-text">
+                                <h5>Fizik ve Matematiksel Altyapı</h5>
+                                <p>Şu an devremiz boş. Qubitler $|0000\rangle$ baz durumunda beklemektedir. Bir kuantum görevi seçtiğinizde veya devreye kapı eklediğinizde fiziksel etkiler burada açıklanacaktır.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- COLUMN 3: Quantum Analyzer & Statistics -->
+            <section class="panel" id="panel-analyzer">
+                <div class="panel-header">
+                    <span class="panel-title"><i class="fa-solid fa-chart-simple"></i> Kuantum Analizör</span>
+                </div>
+                
+                <div class="panel-body">
+                    <!-- Full Statevector List -->
+                    <div style="display: flex; flex-direction: column; gap: 8px; flex: 1.2;">
+                        <h4 style="font-size: 0.72rem; text-transform: uppercase; color: #94a3b8;">Dalga Fonksiyonu Statevector $|\Psi\rangle$</h4>
+                        <div class="statevector-container">
+                            <div class="statevector-header">
+                                <span>Durum</span>
+                                <span>Kompleks Genlik</span>
+                                <span>Olasılık</span>
+                                <span>Grafik</span>
+                            </div>
+                            <div style="overflow-y: auto; max-height: 280px;" id="statevector-rows">
+                                <!-- Rendered dynamically by app.js -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Neon Measurement Histogram -->
+                    <div class="histogram-container">
+                        <div class="histogram-header">
+                            <h4 style="font-size: 0.72rem; text-transform: uppercase; color: #94a3b8; display: flex; align-items: center; gap: 6px;">
+                                <i class="fa-solid fa-chart-column" style="color: #ff007f;"></i> Simüle Ölçüm Sonuçları
+                            </h4>
+                            <span class="shots-label">1024 SHOTS</span>
+                        </div>
+                        
+                        <div class="histogram-chart" id="histogram-chart">
+                            <!-- Rendered dynamically by app.js -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Footer Stats Bar -->
+        <footer>
+            <div class="hardware-metrics">
+                <div class="metric-item">
+                    <span class="metric-label">Qubit Register:</span>
+                    <span class="metric-value">4 QUBITS (Simulated)</span>
+                </div>
+                <div class="metric-item">
+                    <span class="metric-label">Vacuum:</span>
+                    <span class="metric-value" style="color: #00f2fe;">1.2e-10 mbar</span>
+                </div>
+                <div class="metric-item">
+                    <span class="metric-label">Gate Precision:</span>
+                    <span class="metric-value" style="color: #ffd000;">99.96% (Fidelity)</span>
+                </div>
+            </div>
+            <div>
+                <span>AetherQuantum Lab Simulator. Engineered for excellence.</span>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Application Script Connection (ES Module) -->
+    <script type="module" src="app.js"></script>
+</body>
+</html>
