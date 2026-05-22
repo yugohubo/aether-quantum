@@ -2,7 +2,7 @@
 
 AetherQuantum, tarayıcınızda çalışan, doğal dil komutlarıyla yönetilen yüksek hassasiyetli bir kuantum bilgisayar simülatörü ve laboratuvarıdır. Kompleks sayılarla çalışan 4 qubit'lik bir kuantum durum vektörü (statevector) simülatörü ile yapay zekanın kapı derleme (gate compiler) yeteneklerini birleştirir.
 
-👉 **Canlı Demo:** [GitHub Pages Linkiniz Buraya Gelecek]
+👉 **Canlı Demo:** [https://yugohubo.github.io/aether-quantum/]
 
 ---
 
