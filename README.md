@@ -63,4 +63,5 @@ Proje hiçbir harici kütüphane veya backend sunucusu gerektirmez (Vanilla JS, 
 
 ## 🤝 Katkıda Bulunma
 
-Kuantum kapıları, yeni algoritmalar veya görselleştirmeler eklemek isterseniz, lütfen bir Pull Request gönderin veya Issue açın!
+Kuantum kapıları, yeni algoritmalar veya görselleştirmeler eklemek isterseniz, lütfen bir Pull Request gönderin veya Issue açın
+Sevgiler...
