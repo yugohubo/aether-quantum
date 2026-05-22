@@ -40,6 +40,16 @@ export const AGENT_MISSIONS = [
     }
 ];
 
+function escapeHtml(unsafe) {
+    if (unsafe === undefined || unsafe === null) return '';
+    return String(unsafe)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
 export function processAgentQuery(query) {
     const q = query.toLowerCase().trim();
     
@@ -68,14 +78,14 @@ export function processAgentQuery(query) {
         ];
 
         response.thought = `
-            <div class="thought-step"><strong>Adım 1:</strong> Qubit ${q0} üzerinde Hadamard (H) kapısı uygulayarak onu |0⟩ ve |1⟩ süperpozisyon durumuna getirdim.</div>
-            <div class="thought-step"><strong>Adım 2:</strong> Qubit ${q0} kontrol, Qubit ${q1} hedef olacak şekilde bir CNOT (Controlled-NOT) kapısı yerleştirerek süperpozisyonu dolanıklık durumuna genişlettim.</div>
+            <div class="thought-step"><strong>Adım 1:</strong> Qubit ${escapeHtml(q0)} üzerinde Hadamard (H) kapısı uygulayarak onu |0⟩ ve |1⟩ süperpozisyon durumuna getirdim.</div>
+            <div class="thought-step"><strong>Adım 2:</strong> Qubit ${escapeHtml(q0)} kontrol, Qubit ${escapeHtml(q1)} hedef olacak şekilde bir CNOT (Controlled-NOT) kapısı yerleştirerek süperpozisyonu dolanıklık durumuna genişlettim.</div>
             <div class="thought-step"><strong>Sonuç:</strong> EPR çifti oluşturuldu. Formül: (|00⟩ + |11⟩) / √2. Artık bu iki qubit uzayda ne kadar uzakta olursa olsun anında ilişkilidir!</div>
         `;
 
         response.explanation = `
             <strong>Bell Durumu (Kuantum Dolanıklık):</strong> Kuantum mekaniğinin en büyüleyici fenomenidir. 
-            Burada uygulanan Hadamard kapısı <em>q${q0}</em> qubitini <code>1/√2(|0⟩ + |1⟩)</code> durumuna sokar. 
+            Burada uygulanan Hadamard kapısı <em>q${escapeHtml(q0)}</em> qubitini <code>1/√2(|0⟩ + |1⟩)</code> durumuna sokar. 
             Ardından gelen CNOT kapısı, kontrol qubiti 1 olduğunda hedef qubiti çevirir. 
             Böylece sistem <code>1/√2(|00⟩ + |11⟩)</code> durumuna çöker. 
             Ölçüm yapıldığında ya ikisi birden '00' ya da ikisi birden '11' çıkacaktır; asla biri 0 diğeri 1 olamaz!
@@ -256,7 +266,7 @@ export function processAgentQuery(query) {
         ];
 
         response.thought = `
-            <div class="thought-step"><strong>Adım 1:</strong> Qubit ${qubit} üzerinde Hadamard (H) kapısı uygulayarak onu |0⟩ baz durumundan çıkardım.</div>
+            <div class="thought-step"><strong>Adım 1:</strong> Qubit ${escapeHtml(qubit)} üzerinde Hadamard (H) kapısı uygulayarak onu |0⟩ baz durumundan çıkardım.</div>
             <div class="thought-step"><strong>Sonuç:</strong> Qubit artık aynı anda hem 0 hem de 1 durumundadır: (|0⟩ + |1⟩)/√2.</div>
         `;
 
@@ -296,7 +306,7 @@ export function processAgentQuery(query) {
         ];
 
         response.thought = `
-            <div class="thought-step"><strong>Adım 1:</strong> Qubit ${qubit} üzerinde ${axis.toUpperCase()} ekseni etrafında ${angle.toFixed(4)} radyanlık bir rotasyon kapısı uyguladım.</div>
+            <div class="thought-step"><strong>Adım 1:</strong> Qubit ${escapeHtml(qubit)} üzerinde ${escapeHtml(axis.toUpperCase())} ekseni etrafında ${escapeHtml(angle.toFixed(4))} radyanlık bir rotasyon kapısı uyguladım.</div>
         `;
 
         response.explanation = `
